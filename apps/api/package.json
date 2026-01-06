@@ -14,25 +14,25 @@
     "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^1.3.24",
-    "@hono/zod-validator": "^0.7.2",
+    "@ai-sdk/openai": "^3.0.4",
+    "@hono/zod-validator": "^0.7.6",
     "@your-org/config": "workspace:*",
     "@your-org/database": "workspace:*",
     "@your-org/shared": "workspace:*",
-    "ai": "^4.3.19",
-    "better-auth": "1.2.12",
-    "drizzle-orm": "^0.44.5",
-    "hono": "^4.9.5",
+    "ai": "^6.0.11",
+    "better-auth": "^1.4.10",
+    "drizzle-orm": "^0.45.1",
+    "hono": "^4.11.3",
     "pg": "^8.16.3",
-    "resend": "^4.8.0",
-    "zod": "^3.25.76"
+    "resend": "^6.6.0",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.21",
-    "@types/node": "^24.3.0",
-    "@types/pg": "^8.15.5",
-    "drizzle-kit": "^0.31.4",
-    "eslint": "^9.34.0",
-    "typescript": "~5.8.3"
+    "@types/bun": "^1.3.5",
+    "@types/node": "^25.0.3",
+    "@types/pg": "^8.16.0",
+    "drizzle-kit": "^0.31.8",
+    "eslint": "^9.39.2",
+    "typescript": "^5.9.3"
   }
 }

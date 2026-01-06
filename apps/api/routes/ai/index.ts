@@ -4,7 +4,7 @@ import { Hono } from 'hono';
 
 export const aiRoutes = new Hono().get('/', async (c) => {
   const { text } = await generateText({
-    model: openai('o4-mini'),
+    model: openai('gpt-4o-mini'),
     prompt: "What's the weather like today?",
   });
   return c.json({ text });

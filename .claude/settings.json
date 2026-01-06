@@ -1,0 +1,119 @@
+{
+  "monorepo": {
+    "enabled": true,
+    "workspaces": ["apps/*", "packages/*"]
+  },
+  "conventions": {
+    "codeStyle": {
+      "typescript": {
+        "preferArrowFunctions": true,
+        "useTypeInference": true,
+        "avoidAny": true
+      },
+      "react": {
+        "preferFunctionComponents": true,
+        "useTypeScriptInterfaces": true,
+        "preferNamedExports": false
+      },
+      "imports": {
+        "useAbsoluteImports": true,
+        "groupByType": true,
+        "sortAlphabetically": true
+      }
+    },
+    "naming": {
+      "components": "PascalCase",
+      "files": "kebab-case",
+      "functions": "camelCase",
+      "constants": "UPPER_SNAKE_CASE",
+      "types": "PascalCase"
+    },
+    "architecture": {
+      "packageNamespace": "@your-org",
+      "sharedPackages": ["shared", "config", "database"],
+      "preferComposition": true,
+      "separateConcerns": true
+    }
+  },
+  "projectContext": {
+    "stack": {
+      "frontend": {
+        "framework": "React 19",
+        "router": "TanStack Router",
+        "stateManagement": "TanStack Query",
+        "styling": "Tailwind CSS v4",
+        "ui": "shadcn/ui + Radix UI",
+        "buildTool": "Vite 7"
+      },
+      "backend": {
+        "framework": "Hono",
+        "runtime": "Bun",
+        "database": "PostgreSQL",
+        "orm": "Drizzle ORM",
+        "auth": "Better Auth",
+        "validation": "Zod"
+      },
+      "tooling": {
+        "monorepo": "Turborepo",
+        "packageManager": "Bun",
+        "linter": "Biome",
+        "typeChecker": "TypeScript 5.9"
+      }
+    },
+    "structure": {
+      "apps/web": "React frontend application",
+      "apps/api": "Hono backend API server",
+      "packages/shared": "Shared types and schemas",
+      "packages/database": "Drizzle ORM schemas and migrations",
+      "packages/config": "Environment configuration validation"
+    }
+  },
+  "guidelines": {
+    "general": [
+      "Use TypeScript strictly - avoid 'any' types",
+      "Prefer functional programming patterns",
+      "Keep components small and focused",
+      "Write self-documenting code with clear names",
+      "Use Zod for runtime validation",
+      "Handle errors gracefully with user-friendly messages"
+    ],
+    "frontend": [
+      "Use TanStack Router for type-safe routing",
+      "Leverage TanStack Query for server state",
+      "Follow shadcn/ui patterns for components",
+      "Use Tailwind utility classes, avoid custom CSS",
+      "Implement loading and error states",
+      "Keep API calls in separate query functions"
+    ],
+    "backend": [
+      "Use Hono's middleware pattern",
+      "Validate all inputs with Zod schemas",
+      "Use Drizzle for type-safe database queries",
+      "Follow RESTful API conventions",
+      "Implement proper error handling",
+      "Use Better Auth for authentication"
+    ],
+    "database": [
+      "Define schemas in packages/database",
+      "Use migrations for schema changes",
+      "Create indexes for frequently queried fields",
+      "Use transactions for multi-step operations",
+      "Follow naming: snake_case for tables and columns"
+    ],
+    "testing": [
+      "Write tests for critical business logic",
+      "Test API endpoints with proper mocks",
+      "Test component user interactions",
+      "Use meaningful test descriptions"
+    ]
+  },
+  "commands": {
+    "dev": "Start all development servers",
+    "build": "Build all packages for production",
+    "lint": "Run Biome linter on all files",
+    "type-check": "Run TypeScript type checking",
+    "db:generate": "Generate database migrations",
+    "db:push": "Push schema changes to database",
+    "db:migrate": "Run database migrations"
+  }
+}

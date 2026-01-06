@@ -1,0 +1,262 @@
+# AI Context File for Hono React Monorepo
+
+## Quick Project Summary
+Full-stack TypeScript monorepo with React 19 frontend, Hono backend, PostgreSQL database, and Turborepo orchestration.
+
+## Technology Stack
+
+### Frontend (apps/web)
+- React 19.2.3 with TypeScript
+- Vite 7.3.0 for building
+- TanStack Router 1.145.7 (type-safe routing)
+- TanStack Query 5.90.16 (server state)
+- Tailwind CSS 4.1.18 (styling)
+- shadcn/ui + Radix UI (components)
+- React Hook Form 7.70.0 + Zod validation
+- Better Auth 1.4.10 (client)
+
+### Backend (apps/api)
+- Hono 4.11.3 (web framework)
+- Bun (runtime)
+- PostgreSQL (database)
+- Drizzle ORM 0.45.1 (database queries)
+- Better Auth 1.4.10 (authentication)
+- Zod 4.3.5 (validation)
+- Vercel AI SDK 6.0.11 (optional AI features)
+- Resend 6.6.0 (email)
+
+### Shared Packages
+- packages/database: Drizzle schemas
+- packages/shared: Shared types and Zod schemas
+- packages/config: Environment configuration
+
+### Tooling
+- Turborepo 2.7.3 (monorepo)
+- Bun 1.1.0 (package manager)
+- Biome 2.3.11 (linter/formatter)
+- TypeScript 5.9.3
+- Husky 9.1.7 (git hooks)
+
+## Project Structure
+```
+hono-react-boilerplate/
+├── apps/
+│   ├── web/               # React frontend (port 5173)
+│   │   ├── src/
+│   │   │   ├── components/  # UI components
+│   │   │   ├── routes/      # TanStack Router pages
+│   │   │   ├── lib/         # Utilities
+│   │   │   └── main.tsx     # Entry point
+│   │   └── vite.config.ts
+│   └── api/               # Hono backend (port 8000)
+│       ├── routes/         # API endpoints
+│       │   ├── health/
+│       │   ├── auth/
+│       │   └── ai/
+│       ├── lib/            # Auth, email utilities
+│       ├── db/             # Database connection
+│       └── index.ts        # Server entry
+├── packages/
+│   ├── database/          # Drizzle schemas
+│   │   └── schema.ts      # User, Session, Account tables
+│   ├── shared/            # Shared types
+│   │   └── index.ts       # Zod schemas, types
+│   └── config/            # Environment config
+│       └── index.ts       # Env validation
+├── turbo.json             # Turborepo config
+├── biome.json             # Linter config
+└── package.json           # Root workspace
+```
+
+## Key Architectural Decisions
+
+### Monorepo Strategy
+- Turborepo for build orchestration and caching
+- Bun workspaces for dependency management
+- Shared packages for code reuse
+- Independent app deployments
+
+### Type Safety
+- End-to-end TypeScript strict mode
+- Zod for runtime validation
+- Shared schemas between frontend/backend
+- TanStack Router for type-safe routing
+
+### Authentication Flow
+- Better Auth handles sessions, OAuth
+- Email verification supported
+- Session stored in cookies
+- Middleware checks auth on API routes
+
+### Database Architecture
+- PostgreSQL with Drizzle ORM
+- Type-safe queries via drizzle-kit
+- Migration-based schema management
+- Schemas defined in packages/database
+
+### Styling Approach
+- Tailwind CSS v4 (new @tailwindcss/vite plugin)
+- shadcn/ui components (not a package, copy/paste)
+- Radix UI primitives for accessibility
+- No custom CSS files
+
+## Environment Variables
+Required in .env:
+- DATABASE_URL: PostgreSQL connection string
+- BETTER_AUTH_SECRET: Auth secret key
+- BETTER_AUTH_URL: Auth callback URL (http://localhost:8000)
+- PORT: API port (default: 8000)
+
+Optional:
+- OPENAI_API_KEY: For AI features
+- RESEND_API_KEY: For email sending
+- GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET: OAuth
+- APPLE_CLIENT_ID, APPLE_CLIENT_SECRET: OAuth
+
+## Common Tasks
+
+### Development
+```bash
+bun run dev          # Start both frontend and API
+bun run build        # Build all packages
+bun run lint         # Run Biome linter
+bun run type-check   # TypeScript validation
+```
+
+### Database
+```bash
+bun run db:generate  # Generate migration from schema
+bun run db:push      # Push schema to database (dev)
+bun run db:migrate   # Run migrations (production)
+```
+
+### Adding Dependencies
+```bash
+# Frontend dependency
+cd apps/web && bun add package-name
+
+# Backend dependency
+cd apps/api && bun add package-name
+
+# Shared dependency (available to all)
+bun add -w package-name
+```
+
+## Code Patterns
+
+### API Route Pattern
+```typescript
+// apps/api/routes/users/index.ts
+import { Hono } from 'hono';
+import { zValidator } from '@hono/zod-validator';
+import { userSchema } from '@your-org/shared';
+
+export const userRoutes = new Hono()
+  .post('/', zValidator('json', userSchema), async (c) => {
+    const data = c.req.valid('json');
+    // Handle request
+    return c.json({ success: true });
+  });
+```
+
+### Frontend Query Pattern
+```typescript
+// apps/web/src/lib/api/users.ts
+export async function getUsers() {
+  const res = await fetch('/api/users');
+  if (!res.ok) throw new Error('Failed to fetch');
+  return res.json();
+}
+
+// In component
+const { data, isLoading } = useQuery({
+  queryKey: ['users'],
+  queryFn: getUsers,
+});
+```
+
+### Form Validation Pattern
+```typescript
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { userSchema } from '@your-org/shared';
+
+const form = useForm({
+  resolver: zodResolver(userSchema),
+});
+```
+
+## Important Conventions
+
+### Package Namespace
+All workspace packages use `@your-org/` namespace:
+- @your-org/web
+- @your-org/api
+- @your-org/database
+- @your-org/shared
+- @your-org/config
+
+When scaffolding with CLI, this gets replaced with user's org name.
+
+### Import Paths
+- Use package names for cross-package imports
+- Use relative imports within same package
+- Frontend uses `@/` alias for src directory
+
+### Database Naming
+- Tables: snake_case
+- Columns: snake_case
+- TypeScript models: camelCase
+
+### Component Organization
+- One component per file
+- Co-locate tests with components
+- Use index.ts for barrel exports
+- Keep components under 200 lines
+
+## Deployment
+
+### Production Build
+```bash
+bun run build        # Build all packages
+./build.sh           # Create production binary
+```
+
+The build.sh script:
+1. Builds the frontend with Vite
+2. Copies built frontend to API's public directory
+3. Compiles API as standalone Bun binary
+4. Output: `prod-server` executable
+
+### Deployment Targets
+- Coolify (nixpacks.toml configured)
+- Docker
+- Any platform supporting Bun binaries
+
+## Known Issues / Gotchas
+
+1. **Tailwind CSS v4**: Uses new @tailwindcss/vite plugin, not postcss
+2. **Better Auth version**: API uses different version than frontend (1.4.10 vs 1.2.12)
+3. **Bun vs npm**: Prefer bun for all operations
+4. **Drizzle migrations**: Use db:push in dev, db:migrate in production
+5. **shadcn/ui**: Components are copied, not imported from package
+
+## Testing Strategy
+- Unit tests: For utilities and helpers
+- Integration tests: For API endpoints
+- E2E tests: For critical user flows
+- Component tests: For complex UI components
+
+## Performance Considerations
+- Frontend: Lazy load routes, code splitting
+- Backend: Connection pooling, query optimization
+- Database: Proper indexes on frequently queried fields
+- Caching: Turborepo caches build outputs
+
+## Security Best Practices
+- All inputs validated with Zod
+- SQL injection prevented by Drizzle parameterized queries
+- XSS prevented by React's default escaping
+- CSRF tokens in Better Auth
+- Secrets in environment variables only
+- HTTPS required in production

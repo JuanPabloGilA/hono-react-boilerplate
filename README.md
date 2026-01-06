@@ -2,6 +2,14 @@
 
 A production-ready monorepo template built with Turborepo, featuring a React web application, API server, and shared packages. Perfect for building scalable full-stack applications with modern tooling.
 
+## 🚀 Quick Start
+
+```bash
+npx create-hono-react-monorepo
+```
+
+Get started in seconds with our interactive CLI tool! It will scaffold the entire monorepo with your custom configuration.
+
 ## ✨ Features
 
 - 🚀 **Modern Stack**: React 19, Hono, TypeScript, and Bun
@@ -32,19 +40,56 @@ project/
 
 ## Getting Started
 
+### Quick Start with CLI (Recommended)
+
+The fastest way to get started is using our CLI tool:
+
+```bash
+npx create-hono-react-monorepo
+```
+
+This will:
+- Prompt you for a project name and organization name
+- Download and configure the template
+- Set up your monorepo with custom package names
+- Optionally install dependencies
+
+**Alternative package managers:**
+```bash
+# Using npm
+npm create hono-react-monorepo
+
+# Using bun
+bunx create-hono-react-monorepo
+```
+
+After creation:
+```bash
+cd your-project-name
+cp env.example .env
+# Edit .env with your database URL and secrets
+bun run dev
+```
+
 ### Prerequisites
 
 - [Bun](https://bun.sh) (recommended) or Node.js 18+
 - PostgreSQL database
 
-### Installation
+### Manual Installation (Alternative)
+
+If you prefer to clone the repository directly:
 
 ```bash
+# Clone the repository
+git clone https://github.com/JuanPabloGilA/hono-react-boilerplate.git
+cd hono-react-boilerplate
+
 # Install dependencies
 bun install
 
 # Set up environment variables
-cp .env.example .env
+cp env.example .env
 # Edit .env with your database URL and other secrets
 ```
 
@@ -143,7 +188,16 @@ bun run db:migrate
 
 ### Setting up your project
 
-1. **Clone and rename**: Clone this repository and update the package names in `package.json` files
+**If using the CLI (recommended):**
+The CLI automatically handles package naming and setup. You only need to:
+
+1. **Environment variables**: Copy `.env.example` to `.env` and configure your settings
+2. **Database**: Set up your PostgreSQL database and update the connection string
+3. **Authentication**: Configure Better Auth providers in `apps/api/lib/auth.ts`
+4. **Optional services**: Set up OpenAI and Resend if you need AI or email functionality
+
+**If manually cloning:**
+1. **Update package names**: Change `@your-org` in all `package.json` files to your organization name
 2. **Environment variables**: Copy `.env.example` to `.env` and configure your settings
 3. **Database**: Set up your PostgreSQL database and update the connection string
 4. **Authentication**: Configure Better Auth providers in `apps/api/lib/auth.ts`
@@ -163,6 +217,24 @@ This template includes deployment configuration for:
 - **Coolify**: Ready-to-deploy with `nixpacks.toml`
 - **Docker**: Multi-stage Dockerfile for production builds
 - **Self-hosting**: Optimized for VPS deployment
+
+## CLI Tool
+
+This template can be scaffolded using our CLI tool: [create-hono-react-monorepo](https://github.com/JuanPabloGilA/create-hono-react-monorepo)
+
+```bash
+npx create-hono-react-monorepo
+```
+
+The CLI provides:
+- Interactive prompts for project configuration
+- Automatic package namespace replacement
+- Optional dependency installation
+- Beautiful terminal UI with progress indicators
+
+## Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ## License
 

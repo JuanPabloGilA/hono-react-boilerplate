@@ -8,10 +8,7 @@
     "build": "bun build index.ts --outdir dist --target bun",
     "start": "bun index.ts",
     "lint": "eslint .",
-    "type-check": "tsc --noEmit",
-    "db:generate": "drizzle-kit generate",
-    "db:push": "drizzle-kit push",
-    "db:migrate": "drizzle-kit migrate"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.4",

@@ -19,6 +19,9 @@
     "start": "./prod-server",
     "prepare": "husky"
   },
+  "dependencies": {
+    "drizzle-orm": "^0.45.1"
+  },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
     "husky": "^9.1.7",

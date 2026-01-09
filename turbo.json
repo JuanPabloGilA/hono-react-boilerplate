@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
   "globalDependencies": ["**/.env.*local"],
   "tasks": {
     "build": {
@@ -20,7 +21,8 @@
       "cache": false
     },
     "db:push": {
-      "cache": false
+      "cache": false,
+      "interactive": true
     },
     "db:migrate": {
       "cache": false

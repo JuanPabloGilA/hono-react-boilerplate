@@ -22,10 +22,6 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: true,
     sendResetPassword: async ({ user, url, token }) => {
-      console.log('URL:', url);
-      if (token) console.log('Token:', token);
-      console.log('user', user.email);
-
       const html = generateEmailHTML({
         link: url,
         type: 'password-reset',
